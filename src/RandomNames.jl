@@ -42,7 +42,7 @@ function countword(strlist; allowindex=false)
     c = 0
     for str in strlist
         m = match(regex, str)
-        if !isnothing(m)
+        if !(m isa Nothing) # use this instead of `isnothing`` to support Julia <1.1
             c += 1
         end
     end
