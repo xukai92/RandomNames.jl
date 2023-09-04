@@ -15,18 +15,22 @@ function readwordlist(folder)
         fp = joinpath(dir, fn)
         append!(words, readlines(fp))
     end
-    return words
+    return filter(!isempty, words)
 end
 
 # TODO Use metaprog to store all the word lists
 const ADJECTIVES = readwordlist("adjectives")
 const NOUNS = readwordlist("nouns")
 
+function formatword(w)
+    return replace(w, ' ' => "_")
+end
+
 # TODO Enrich this to support more controls of name generation
 struct RandomName end
 
 function rand(rng::AbstractRNG, ::RandomName)
-    return rand(rng, ADJECTIVES) * '-' * rand(rng, NOUNS)
+    return join(formatword.([rand(rng, ADJECTIVES), rand(rng, NOUNS)]), '-')
 end
 rand(rn::RandomName) = rand(GLOBAL_RNG, rn::RandomName)
 
