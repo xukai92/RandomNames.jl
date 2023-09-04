@@ -5,7 +5,7 @@ using Random: GLOBAL_RNG
 
 import Random: rand
 
-export RandomName
+export RandomName, countword
 
 # TODO Store the subfolder names as well such that one can filter out certain words to use
 function readwordlist(folder)
@@ -33,5 +33,20 @@ function rand(rng::AbstractRNG, ::RandomName)
     return join(formatword.([rand(rng, ADJECTIVES), rand(rng, NOUNS)]), '-')
 end
 rand(rn::RandomName) = rand(GLOBAL_RNG, rn::RandomName)
+
+const RANDOM_WORD_REGEX = r"^[\w_]+-[\w_]$"
+const RANDOM_WORD_REGEX_WITH_INDEX = r"^[\w_]+-[\w_]+(?:-\d+)?$"
+
+function countword(strlist; allowindex=false)
+    regex = allowindex ? RANDOM_WORD_REGEX_WITH_INDEX : RANDOM_WORD_REGEX
+    c = 0
+    for str in strlist
+        m = match(regex, str)
+        if !isnothing(m)
+            c += 1
+        end
+    end
+    return c
+end
 
 end
