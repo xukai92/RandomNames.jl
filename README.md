@@ -10,11 +10,9 @@ Useful for automatically assigning readable, easy-to-refer names to experiments.
 ```julia
 using RandomNames
 
-rand(RandomName())
-```
-
-```
-"candied-plaid"
+rand(RandomName()) # => "ivory-receipt"
+rand(RandomName()) # => "gourmet-paper"
+rand(RandomName()) # => "descent-head"
 ```
 
 ## Acknowledgements
